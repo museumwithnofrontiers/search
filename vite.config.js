@@ -6,7 +6,7 @@ import { defineViewerConfig } from '@museumwnf/viewer-core/vite'
 // the optimizeDeps split that keeps a single copy of Vue in dev, and the
 // Vitest environment — from viewer-core's own `./vite` entry.
 const viewerConfig = defineViewerConfig({
-  dataPackage: '@museumwnf/__DATASET__-data',
+  dataPackage: '@museumwnf/search-data',
   plugins: [vue()],
 })
 

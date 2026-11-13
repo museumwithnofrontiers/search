@@ -1,10 +1,79 @@
-/*
- * This website's own content styles: the palette its views reference and the
- * building blocks they share (panels, lists, forms, prose).
- *
- * Page chrome — header, banner, navigation, footer — is themed through
- * theme/tokens.css instead. Keep the two apart: tokens.css is read by
- * @museumwnf/viewer-layout, this file only by the views in src/views/.
- *
- * Starts empty on purpose. Nothing here is required for the website to run.
- */
+/* The search page. Colours and fonts come from theme/tokens.css. */
+.search-page {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.search-input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 0.5rem;
+}
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0.75rem 0 1rem;
+}
+.search-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 0.875rem;
+}
+/* The site list holds long names: it must not widen the page on a phone. */
+.search-filters select {
+  max-width: 100%;
+}
+.search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.search-result {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--mwnf-color-border, #dddddd);
+}
+.search-result__picture {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  flex: none;
+}
+.search-result__name {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+.search-result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  color: var(--mwnf-color-muted, #555555);
+}
+.search-result__open {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.search-error {
+  color: var(--mwnf-color-error, #a00000);
+}
+.search-more {
+  margin: 1rem 0;
+}
+@media (max-width: 40rem) {
+  .search-result__picture {
+    width: 4rem;
+    height: 4rem;
+  }
+}
