@@ -7,6 +7,12 @@ const globals = {
   console: 'readonly',
   process: 'readonly',
   URL: 'readonly',
+  // The search page asks the search edge itself, and types before it asks.
+  fetch: 'readonly',
+  AbortController: 'readonly',
+  setTimeout: 'readonly',
+  clearTimeout: 'readonly',
+  Intl: 'readonly',
 }
 
 export default [

@@ -1,13 +1,3 @@
 {
-  "globalsearch.identity.organisation": "Museum With No Frontiers",
-  "globalsearch.identity.title": "search",
-  "globalsearch.identity.copyright": "© Museum With No Frontiers",
-  "globalsearch.home.intro": "Welcome to search.",
-  "globalsearch.home.catalogueText": "Browse every item by country and date.",
-  "globalsearch.home.searchText": "Search the items by name, location, material or any other field.",
-  "globalsearch.home.itemOnDisplay": "Item on display",
-  "globalsearch.nav.catalogue": "Catalogue",
-  "globalsearch.nav.search": "Search",
-  "globalsearch.nav.about": "About",
-  "globalsearch.about.body": "This website is published by Museum With No Frontiers. Replace this text with what search is and who made it."
+  "globalsearch.identity.organisation": "Museum With No Frontiers"
 }

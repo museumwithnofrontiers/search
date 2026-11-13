@@ -11,7 +11,7 @@
     "lint": "eslint ."
   },
   "viewerI18n": {
-    "class": "standalone",
+    "class": "search",
     "namespace": "globalsearch"
   },
   "dependencies": {
