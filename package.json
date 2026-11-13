@@ -1,22 +1,21 @@
 {
-  "name": "__DATASET__",
+  "name": "search",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "preinstall": "node scripts/check-placeholders.js",
     "dev": "vite",
     "build": "vite build",
     "test": "vitest run",
     "lint": "eslint ."
   },
   "viewerI18n": {
-    "class": "__SITE_CLASS__",
-    "namespace": "__SITE_NAMESPACE__"
+    "class": "standalone",
+    "namespace": "globalsearch"
   },
   "dependencies": {
-    "@museumwnf/__DATASET__-data": "0.0.0-REPLACE-ME",
+    "@museumwnf/search-data": "^1.0.1",
     "@museumwnf/viewer-core": "^2.21.0",
     "@museumwnf/viewer-i18n": "^6.0.0",
     "@museumwnf/viewer-layout": "^3.72.0",
