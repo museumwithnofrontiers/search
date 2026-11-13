@@ -70,6 +70,10 @@ function submitted() {
   update({ q: term.value.trim() })
 }
 
+// Each type's label, spelled out so the texts check can see every name.
+const typeLabel = (type) =>
+  type === 'object' ? t('search.type.object') : type === 'monument' ? t('search.type.monument') : type === 'detail' ? t('search.type.detail') : ''
+
 const languageName = (code) => {
   try {
     return new Intl.DisplayNames([code === 'se' ? 'sv' : code], { type: 'language' }).of(code === 'se' ? 'sv' : code)
@@ -126,7 +130,7 @@ const back = computed(() => {
         <span>{{ t('catalogue.facet.type') }}</span>
         <select :value="search.type" @change="update({ type: $event.target.value })">
           <option value="">{{ t('search.facet.allTypes') }}</option>
-          <option v-for="type in TYPES" :key="type" :value="type">{{ t(`search.type.${type}`) }}</option>
+          <option v-for="type in TYPES" :key="type" :value="type">{{ typeLabel(type) }}</option>
         </select>
       </label>
       <label>
@@ -148,7 +152,7 @@ const back = computed(() => {
         <div class="search-result__body">
           <p class="search-result__name" :lang="result.shown.language" dir="auto">{{ result.shown.name }}</p>
           <p class="search-result__meta">
-            <span v-if="result.type">{{ t(`search.type.${result.type}`) }}</span>
+            <span v-if="result.type">{{ typeLabel(result.type) }}</span>
             <span v-if="result.shown.partner" dir="auto">{{ result.shown.partner }}</span>
             <span v-if="result.shown.dates" dir="auto">{{ result.shown.dates }}</span>
           </p>
