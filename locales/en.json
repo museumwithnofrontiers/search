@@ -1,4 +1,10 @@
 {
   "globalsearch.identity.organisation": "Museum With No Frontiers",
-  "globalsearch.header.portal": "MWNF Portal"
+  "globalsearch.header.portal": "MWNF Portal",
+  "globalsearch.field.label": "Search in",
+  "globalsearch.field.all": "All fields",
+  "globalsearch.field.name": "Name",
+  "globalsearch.field.place": "Location / Provenance",
+  "globalsearch.field.artist": "Architect / Artist / Patron",
+  "globalsearch.date.hint": "Years before Christ are negative: -300 is 300 BC."
 }

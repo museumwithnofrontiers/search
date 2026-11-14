@@ -22,6 +22,8 @@ body {
   align-items: center;
 }
 .search-input,
+.search-field,
+.search-year,
 .search-filters select {
   min-height: 30px;
   font: inherit;
@@ -66,7 +68,8 @@ body {
   font-size: 0.875rem;
 }
 /* The site list holds long names: it must not widen the page on a phone. */
-.search-filters select {
+.search-filters select,
+.search-field {
   max-width: 100%;
 }
 .search-results {
@@ -112,5 +115,31 @@ body {
   .search-result__picture {
     width: 4rem;
     height: 4rem;
+  }
+}
+/* Legacy's form puts the field to search in before the words. */
+.search-field {
+  flex: none;
+  max-width: 40%;
+  padding: 0 6px;
+}
+/* A year has at most six digits and a sign. */
+.search-year {
+  width: 7.5rem;
+  padding: 5px 8px;
+}
+.search-hint {
+  flex-basis: 100%;
+  margin: -0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--mwnf-color-muted, #555555);
+}
+@media (max-width: 40rem) {
+  .search-form {
+    flex-wrap: wrap;
+  }
+  .search-field {
+    max-width: none;
+    flex-basis: 100%;
   }
 }
