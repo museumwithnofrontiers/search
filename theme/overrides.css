@@ -1,1 +1,33 @@
-/* Escape hatch for styling beyond tokens.css — keep it empty until a need cannot be expressed with a token. */
+/*
+ * What tokens cannot express. The legacy chrome is viewer-layout's
+ * standalone family stylesheet, themed by tokens.css; left here is where
+ * the MWNF portal's database page (database_searchform.php) draws it apart
+ * from the family's product sites.
+ */
+
+/* The page is white under a short page's footer, as legacy's body is. */
+html {
+  background: var(--mwnf-color-background);
+}
+
+/* The portal's two links stand one under the other at the header's right
+   (`.portal_links li`), with no bar between them. */
+.mwnf-header__links {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.mwnf-standalone .mwnf-header__links li + li::before {
+  content: none;
+}
+
+/* The social icons follow the copyright line where the footer has room for
+   both; a narrower window puts them on a line of their own, centred, as
+   legacy's footer wraps them. A phone keeps the family's own placement. */
+@media (min-width: 48rem) and (max-width: 1199px) {
+  .mwnf-standalone .mwnf-footer__social {
+    position: static;
+    justify-content: center;
+    margin-top: 6px;
+  }
+}

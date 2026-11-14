@@ -1,18 +1,55 @@
-/* The search page. Colours and fonts come from theme/tokens.css. */
+/*
+ * The search page. Colours and fonts come from theme/tokens.css; the form
+ * takes the look of legacy's database search form on the MWNF portal
+ * (database_searchform.php): square grey-ruled fields and its round blue
+ * "Go" button.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+
+body {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
 .search-page {
   max-width: 60rem;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
 }
 .search-form {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  align-items: center;
+}
+.search-input,
+.search-filters select {
+  min-height: 30px;
+  font: inherit;
+  color: var(--mwnf-color-text);
+  background: var(--mwnf-color-background);
+  border: 1px solid #a9a9a9;
+  border-radius: 0;
 }
 .search-input {
   flex: 1;
   min-width: 0;
+  padding: 5px 10px;
+}
+.search-submit,
+.search-more {
+  padding: 6px 20px;
   font: inherit;
-  padding: 0.5rem;
+  font-size: 16px;
+  color: #ffffff;
+  background: var(--mwnf-standalone-db-go-background, #3f6289);
+  border: 1px solid var(--mwnf-standalone-db-go-border, #12376b);
+  border-radius: 20px;
+  cursor: pointer;
+}
+.search-submit:hover,
+.search-more:hover {
+  background: var(--mwnf-standalone-db-go-hover-background, #12376b);
+  border-color: var(--mwnf-standalone-db-go-hover-border, #12376b);
 }
 .search-filters {
   display: flex;

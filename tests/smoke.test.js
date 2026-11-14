@@ -12,7 +12,9 @@ describe('the search site', () => {
     vi.stubGlobal('fetch', vi.fn())
     const { app, host } = await mountSite(config, messages)
     expect(host.querySelector('.search-page')).not.toBeNull()
-    expect(host.querySelector('.search-title').textContent.trim()).toBe('Search Overall MWNF Database')
+    // Legacy's portal chrome: the title on the banner, the portal's links in the header.
+    expect(host.querySelector('.mwnf-standalone-banner__title').textContent.trim()).toBe('Search Overall MWNF Database')
+    expect(host.textContent).toContain('MWNF Portal')
     expect(host.querySelector('form[role="search"] input')).not.toBeNull()
     // Nothing is searched before a text is typed.
     expect(fetch).not.toHaveBeenCalled()
