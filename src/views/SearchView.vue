@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n, useLocale, useSiteConfig } from '@museumwnf/viewer-core'
 import sitesFile from '@museumwnf/search-data/sites.json'
 import manifest from '@museumwnf/search-data/manifest.json'
-import { TYPES, parseQuery, siteIndex, siteUrl, toQuery } from '../search/contract.js'
+import { FIELDS, TYPES, parseQuery, siteIndex, siteUrl, toQuery } from '../search/contract.js'
 import { PAGE_SIZE, inLanguage, searchItems } from '../search/api.js'
 
 // The global search (inventory-app M15, ADR 005): every item a site shows,
@@ -44,7 +44,7 @@ async function run(offset = 0) {
   controller = new AbortController()
   state.value = 'loading'
   try {
-    const page = await searchItems(config.search.api, s, offset, { signal: controller.signal })
+    const page = await searchItems(config.search.api, s, offset, { signal: controller.signal, languages })
     hits.value = offset === 0 ? page.hits : [...hits.value, ...page.hits]
     total.value = page.total
     state.value = 'done'
@@ -58,8 +58,10 @@ watch(search, () => run(0), { immediate: true, deep: true })
 onBeforeUnmount(() => { controller?.abort(); clearTimeout(timer) })
 
 // Typing searches after a pause; the address is updated, and the watch above runs it.
+// `lang` is the display language, viewer-core's: it stays as it is.
 function update(changes) {
-  router.replace({ query: toQuery({ ...search.value, ...changes }) })
+  const display = typeof route.query.lang === 'string' ? { lang: route.query.lang } : {}
+  router.replace({ query: { ...toQuery({ ...search.value, ...changes }), ...display } })
 }
 function typed() {
   clearTimeout(timer)
@@ -69,6 +71,22 @@ function submitted() {
   clearTimeout(timer)
   update({ q: term.value.trim() })
 }
+
+// A year typed in a box: the address takes it once the box is left or Enter is
+// pressed; parseQuery drops anything that is not a whole year.
+function year(key, value) {
+  update({ [key]: String(value ?? '').trim() })
+}
+
+// Each field's label, spelled out so the texts check can see every name.
+const fieldLabel = (field) =>
+  field === 'name' ? t('globalsearch.field.name')
+    : field === 'keyword' ? t('catalogue.field.keywords')
+      : field === 'place' ? t('globalsearch.field.place')
+        : field === 'dynasty' ? t('catalogue.facet.periodDynasty')
+          : field === 'artist' ? t('globalsearch.field.artist')
+            : field === 'material' ? t('catalogue.field.material')
+              : ''
 
 // Each type's label, spelled out so the texts check can see every name.
 const typeLabel = (type) =>
@@ -106,6 +124,16 @@ const back = computed(() => {
     </p>
 
     <form class="search-form" role="search" @submit.prevent="submitted">
+      <select
+        class="search-field"
+        :value="search.in"
+        :aria-label="t('globalsearch.field.label')"
+        :title="t('globalsearch.field.label')"
+        @change="update({ in: $event.target.value })"
+      >
+        <option value="">{{ t('globalsearch.field.all') }}</option>
+        <option v-for="field in Object.keys(FIELDS)" :key="field" :value="field">{{ fieldLabel(field) }}</option>
+      </select>
       <input
         v-model="term"
         class="search-input"
@@ -120,7 +148,7 @@ const back = computed(() => {
     <div class="search-filters">
       <label>
         <span>{{ t('catalogue.search.language') }}</span>
-        <select :value="search.lang" @change="update({ lang: $event.target.value })">
+        <select :value="search.searchlang" @change="update({ searchlang: $event.target.value })">
           <option value="">{{ t('catalogue.search.anyLanguage') }}</option>
           <option v-for="code in languages" :key="code" :value="code" :lang="code">{{ languageName(code) }}</option>
         </select>
@@ -139,6 +167,31 @@ const back = computed(() => {
           <option v-for="site in siteOptions" :key="site.slug" :value="site.slug">{{ site.name }}</option>
         </select>
       </label>
+      <label>
+        <span>{{ t('catalogue.facet.fromYear') }}</span>
+        <input
+          class="search-year"
+          type="number"
+          step="1"
+          inputmode="numeric"
+          :value="search.since"
+          :aria-describedby="'search-year-hint'"
+          @change="year('since', $event.target.value)"
+        />
+      </label>
+      <label>
+        <span>{{ t('catalogue.facet.toYear') }}</span>
+        <input
+          class="search-year"
+          type="number"
+          step="1"
+          inputmode="numeric"
+          :value="search.until"
+          :aria-describedby="'search-year-hint'"
+          @change="year('until', $event.target.value)"
+        />
+      </label>
+      <p id="search-year-hint" class="search-hint">{{ t('globalsearch.date.hint') }}</p>
     </div>
 
     <p v-if="state === 'error'" class="search-error" role="alert">{{ t('search.error.unavailable') }}</p>

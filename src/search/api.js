@@ -1,4 +1,4 @@
-import { filterOf } from './contract.js'
+import { attributesOf, filterOf } from './contract.js'
 
 // The one request this site makes: a search through the public edge
 // (search.metanull.eu), which adds the key itself and answers nothing else.
@@ -15,12 +15,13 @@ export const PAGE_SIZE = 20
  * One page of results.
  *
  * @param {string} api the edge's address, no trailing slash
- * @param {{ q: string, lang: string, site: string, type: string }} search checked values (contract.js)
+ * @param {{ q: string, in: string, since: string, until: string, searchlang: string, site: string, type: string }} search checked values (contract.js)
  * @param {number} offset
- * @param {{ fetch?: typeof fetch, signal?: AbortSignal }} [options]
+ * @param {{ fetch?: typeof fetch, signal?: AbortSignal, languages?: string[] }} [options] languages: the package's
  * @returns {Promise<{ hits: object[], total: number }>}
  */
-export async function searchItems(api, search, offset = 0, { fetch: fetchImpl = fetch, signal } = {}) {
+export async function searchItems(api, search, offset = 0, { fetch: fetchImpl = fetch, signal, languages = [] } = {}) {
+  const attributes = attributesOf(search.in, languages)
   const body = {
     q: search.q,
     offset,
@@ -28,7 +29,8 @@ export async function searchItems(api, search, offset = 0, { fetch: fetchImpl = 
     // Every word must match: with the default, Arabic's article alone matches every record.
     matchingStrategy: 'all',
     filter: filterOf(search),
-    ...(search.lang && LOCALES[search.lang] ? { locales: [LOCALES[search.lang]] } : {}),
+    ...(attributes ? { attributesToSearchOn: attributes } : {}),
+    ...(search.searchlang && LOCALES[search.searchlang] ? { locales: [LOCALES[search.searchlang]] } : {}),
   }
   const response = await fetchImpl(`${api}/indexes/items/search`, {
     method: 'POST',
