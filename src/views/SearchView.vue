@@ -104,7 +104,6 @@ const back = computed(() => {
     <p v-if="back" class="search-back">
       <a :href="back.href">{{ t('search.results.backTo') }} {{ back.name }}</a>
     </p>
-    <h1 class="search-title">{{ t('layout.globalSearch.label') }}</h1>
 
     <form class="search-form" role="search" @submit.prevent="submitted">
       <input
